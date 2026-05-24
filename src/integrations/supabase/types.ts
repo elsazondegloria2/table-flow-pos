@@ -14,13 +14,301 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      expenses: {
+        Row: {
+          amount: number
+          concept: string
+          created_at: string
+          date: string
+          id: string
+        }
+        Insert: {
+          amount?: number
+          concept: string
+          created_at?: string
+          date?: string
+          id?: string
+        }
+        Update: {
+          amount?: number
+          concept?: string
+          created_at?: string
+          date?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      extras: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          price?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
+      order_item_extras: {
+        Row: {
+          created_at: string
+          extra_id: string | null
+          id: string
+          name_snapshot: string
+          order_item_id: string
+          price_snapshot: number
+          quantity: number
+        }
+        Insert: {
+          created_at?: string
+          extra_id?: string | null
+          id?: string
+          name_snapshot: string
+          order_item_id: string
+          price_snapshot: number
+          quantity?: number
+        }
+        Update: {
+          created_at?: string
+          extra_id?: string | null
+          id?: string
+          name_snapshot?: string
+          order_item_id?: string
+          price_snapshot?: number
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_item_extras_extra_id_fkey"
+            columns: ["extra_id"]
+            isOneToOne: false
+            referencedRelation: "extras"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_item_extras_order_item_id_fkey"
+            columns: ["order_item_id"]
+            isOneToOne: false
+            referencedRelation: "order_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          name_snapshot: string
+          notes: string | null
+          order_id: string
+          price_snapshot: number
+          product_id: string | null
+          quantity: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name_snapshot: string
+          notes?: string | null
+          order_id: string
+          price_snapshot: number
+          product_id?: string | null
+          quantity?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name_snapshot?: string
+          notes?: string | null
+          order_id?: string
+          price_snapshot?: number
+          product_id?: string | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          amount_received: number | null
+          closed_at: string | null
+          customer_name: string | null
+          guests: number
+          id: string
+          opened_at: string
+          payment_method: string | null
+          status: string
+          subtotal: number
+          table_id: string | null
+          total: number
+          type: string
+        }
+        Insert: {
+          amount_received?: number | null
+          closed_at?: string | null
+          customer_name?: string | null
+          guests?: number
+          id?: string
+          opened_at?: string
+          payment_method?: string | null
+          status?: string
+          subtotal?: number
+          table_id?: string | null
+          total?: number
+          type?: string
+        }
+        Update: {
+          amount_received?: number | null
+          closed_at?: string | null
+          customer_name?: string | null
+          guests?: number
+          id?: string
+          opened_at?: string
+          payment_method?: string | null
+          status?: string
+          subtotal?: number
+          table_id?: string | null
+          total?: number
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_table_id_fkey"
+            columns: ["table_id"]
+            isOneToOne: false
+            referencedRelation: "tables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          available: boolean
+          category_id: string | null
+          created_at: string
+          emoji: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          sort_order: number
+        }
+        Insert: {
+          available?: boolean
+          category_id?: string | null
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price?: number
+          sort_order?: number
+        }
+        Update: {
+          available?: boolean
+          category_id?: string | null
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tables: {
+        Row: {
+          capacity: number
+          created_at: string
+          guests: number
+          id: string
+          number: number
+          opened_at: string | null
+          status: string
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          guests?: number
+          id?: string
+          number: number
+          opened_at?: string | null
+          status?: string
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          guests?: number
+          id?: string
+          number?: number
+          opened_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      recompute_order_total: { Args: { p_order: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
