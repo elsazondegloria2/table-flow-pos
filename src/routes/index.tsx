@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { money, elapsed, TABLE_STATUS_META, type TableRow, type OrderRow } from "@/lib/pos";
-import { Users, ShoppingBag, Zap, Plus } from "lucide-react";
+import { Users, ShoppingBag, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({ component: TablesPage });
