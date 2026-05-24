@@ -9,38 +9,193 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportesRouteImport } from './routes/reportes'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CajaRapidaRouteImport } from './routes/caja-rapida'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LlevarIndexRouteImport } from './routes/llevar.index'
+import { Route as MesaOrderIdRouteImport } from './routes/mesa.$orderId'
+import { Route as LlevarOrderIdRouteImport } from './routes/llevar.$orderId'
+import { Route as AdminProductosRouteImport } from './routes/admin.productos'
+import { Route as AdminMesasRouteImport } from './routes/admin.mesas'
+import { Route as AdminExtrasRouteImport } from './routes/admin.extras'
+import { Route as AdminCategoriasRouteImport } from './routes/admin.categorias'
 
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CajaRapidaRoute = CajaRapidaRouteImport.update({
+  id: '/caja-rapida',
+  path: '/caja-rapida',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LlevarIndexRoute = LlevarIndexRouteImport.update({
+  id: '/llevar/',
+  path: '/llevar/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MesaOrderIdRoute = MesaOrderIdRouteImport.update({
+  id: '/mesa/$orderId',
+  path: '/mesa/$orderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlevarOrderIdRoute = LlevarOrderIdRouteImport.update({
+  id: '/llevar/$orderId',
+  path: '/llevar/$orderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProductosRoute = AdminProductosRouteImport.update({
+  id: '/admin/productos',
+  path: '/admin/productos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMesasRoute = AdminMesasRouteImport.update({
+  id: '/admin/mesas',
+  path: '/admin/mesas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminExtrasRoute = AdminExtrasRouteImport.update({
+  id: '/admin/extras',
+  path: '/admin/extras',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCategoriasRoute = AdminCategoriasRouteImport.update({
+  id: '/admin/categorias',
+  path: '/admin/categorias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/caja-rapida': typeof CajaRapidaRoute
+  '/dashboard': typeof DashboardRoute
+  '/reportes': typeof ReportesRoute
+  '/admin/categorias': typeof AdminCategoriasRoute
+  '/admin/extras': typeof AdminExtrasRoute
+  '/admin/mesas': typeof AdminMesasRoute
+  '/admin/productos': typeof AdminProductosRoute
+  '/llevar/$orderId': typeof LlevarOrderIdRoute
+  '/mesa/$orderId': typeof MesaOrderIdRoute
+  '/llevar/': typeof LlevarIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/caja-rapida': typeof CajaRapidaRoute
+  '/dashboard': typeof DashboardRoute
+  '/reportes': typeof ReportesRoute
+  '/admin/categorias': typeof AdminCategoriasRoute
+  '/admin/extras': typeof AdminExtrasRoute
+  '/admin/mesas': typeof AdminMesasRoute
+  '/admin/productos': typeof AdminProductosRoute
+  '/llevar/$orderId': typeof LlevarOrderIdRoute
+  '/mesa/$orderId': typeof MesaOrderIdRoute
+  '/llevar': typeof LlevarIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/caja-rapida': typeof CajaRapidaRoute
+  '/dashboard': typeof DashboardRoute
+  '/reportes': typeof ReportesRoute
+  '/admin/categorias': typeof AdminCategoriasRoute
+  '/admin/extras': typeof AdminExtrasRoute
+  '/admin/mesas': typeof AdminMesasRoute
+  '/admin/productos': typeof AdminProductosRoute
+  '/llevar/$orderId': typeof LlevarOrderIdRoute
+  '/mesa/$orderId': typeof MesaOrderIdRoute
+  '/llevar/': typeof LlevarIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/caja-rapida'
+    | '/dashboard'
+    | '/reportes'
+    | '/admin/categorias'
+    | '/admin/extras'
+    | '/admin/mesas'
+    | '/admin/productos'
+    | '/llevar/$orderId'
+    | '/mesa/$orderId'
+    | '/llevar/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/caja-rapida'
+    | '/dashboard'
+    | '/reportes'
+    | '/admin/categorias'
+    | '/admin/extras'
+    | '/admin/mesas'
+    | '/admin/productos'
+    | '/llevar/$orderId'
+    | '/mesa/$orderId'
+    | '/llevar'
+  id:
+    | '__root__'
+    | '/'
+    | '/caja-rapida'
+    | '/dashboard'
+    | '/reportes'
+    | '/admin/categorias'
+    | '/admin/extras'
+    | '/admin/mesas'
+    | '/admin/productos'
+    | '/llevar/$orderId'
+    | '/mesa/$orderId'
+    | '/llevar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CajaRapidaRoute: typeof CajaRapidaRoute
+  DashboardRoute: typeof DashboardRoute
+  ReportesRoute: typeof ReportesRoute
+  AdminCategoriasRoute: typeof AdminCategoriasRoute
+  AdminExtrasRoute: typeof AdminExtrasRoute
+  AdminMesasRoute: typeof AdminMesasRoute
+  AdminProductosRoute: typeof AdminProductosRoute
+  LlevarOrderIdRoute: typeof LlevarOrderIdRoute
+  MesaOrderIdRoute: typeof MesaOrderIdRoute
+  LlevarIndexRoute: typeof LlevarIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caja-rapida': {
+      id: '/caja-rapida'
+      path: '/caja-rapida'
+      fullPath: '/caja-rapida'
+      preLoaderRoute: typeof CajaRapidaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +203,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/llevar/': {
+      id: '/llevar/'
+      path: '/llevar'
+      fullPath: '/llevar/'
+      preLoaderRoute: typeof LlevarIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mesa/$orderId': {
+      id: '/mesa/$orderId'
+      path: '/mesa/$orderId'
+      fullPath: '/mesa/$orderId'
+      preLoaderRoute: typeof MesaOrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llevar/$orderId': {
+      id: '/llevar/$orderId'
+      path: '/llevar/$orderId'
+      fullPath: '/llevar/$orderId'
+      preLoaderRoute: typeof LlevarOrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/productos': {
+      id: '/admin/productos'
+      path: '/admin/productos'
+      fullPath: '/admin/productos'
+      preLoaderRoute: typeof AdminProductosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/mesas': {
+      id: '/admin/mesas'
+      path: '/admin/mesas'
+      fullPath: '/admin/mesas'
+      preLoaderRoute: typeof AdminMesasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/extras': {
+      id: '/admin/extras'
+      path: '/admin/extras'
+      fullPath: '/admin/extras'
+      preLoaderRoute: typeof AdminExtrasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/categorias': {
+      id: '/admin/categorias'
+      path: '/admin/categorias'
+      fullPath: '/admin/categorias'
+      preLoaderRoute: typeof AdminCategoriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CajaRapidaRoute: CajaRapidaRoute,
+  DashboardRoute: DashboardRoute,
+  ReportesRoute: ReportesRoute,
+  AdminCategoriasRoute: AdminCategoriasRoute,
+  AdminExtrasRoute: AdminExtrasRoute,
+  AdminMesasRoute: AdminMesasRoute,
+  AdminProductosRoute: AdminProductosRoute,
+  LlevarOrderIdRoute: LlevarOrderIdRoute,
+  MesaOrderIdRoute: MesaOrderIdRoute,
+  LlevarIndexRoute: LlevarIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
