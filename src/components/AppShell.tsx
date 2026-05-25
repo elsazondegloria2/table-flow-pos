@@ -2,19 +2,23 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutGrid,
   ShoppingBag,
+  Bike,
   Zap,
   BarChart3,
   FileText,
+  Wallet,
   Settings,
   Flame,
 } from "lucide-react";
 
 const nav = [
   { to: "/", label: "Mesas", icon: LayoutGrid },
-  { to: "/llevar", label: "Para llevar", icon: ShoppingBag },
-  { to: "/caja-rapida", label: "Caja rápida", icon: Zap },
+  { to: "/llevar", label: "Llevar", icon: ShoppingBag },
+  { to: "/delivery", label: "Delivery", icon: Bike },
+  { to: "/caja-rapida", label: "Caja", icon: Zap },
   { to: "/dashboard", label: "Dashboard", icon: BarChart3 },
   { to: "/reportes", label: "Reportes", icon: FileText },
+  { to: "/gastos", label: "Gastos", icon: Wallet },
   { to: "/admin/productos", label: "Admin", icon: Settings },
 ] as const;
 
@@ -41,13 +45,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link
                 key={to}
                 to={to}
-                className={`tap-hi flex w-20 flex-col items-center gap-1 rounded-xl px-2 py-3 text-[11px] font-medium ${
+                className={`tap-hi flex w-20 flex-col items-center gap-1 rounded-xl px-2 py-2.5 text-[11px] font-medium ${
                   active
                     ? "bg-primary/15 text-primary"
                     : "text-muted-foreground hover:bg-surface hover:text-foreground"
                 }`}
               >
-                <Icon className="h-6 w-6" />
+                <Icon className="h-5 w-5" />
                 <span className="text-center leading-tight">{label}</span>
               </Link>
             );
