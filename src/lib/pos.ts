@@ -7,9 +7,15 @@ export type CategoryRow = Database["public"]["Tables"]["categories"]["Row"];
 export type ExtraRow = Database["public"]["Tables"]["extras"]["Row"];
 export type OrderItemRow = Database["public"]["Tables"]["order_items"]["Row"];
 export type OrderItemExtraRow = Database["public"]["Tables"]["order_item_extras"]["Row"];
+export type ExpenseRow = Database["public"]["Tables"]["expenses"]["Row"];
+
+export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
 
 export const money = (n: number | null | undefined) =>
-  `$${(Number(n ?? 0)).toFixed(2)}`;
+  `C$ ${Number(n ?? 0).toLocaleString("es-NI", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 
 export function elapsed(from: string | null): string {
   if (!from) return "—";
@@ -19,6 +25,13 @@ export function elapsed(from: string | null): string {
   const h = Math.floor(m / 60);
   return `${h}h ${m % 60}m`;
 }
+
+export const ORDER_TYPE_LABEL: Record<string, string> = {
+  dine_in: "Mesa",
+  takeaway: "Para llevar",
+  delivery: "Delivery",
+  quick_sale: "Caja rápida",
+};
 
 export const TABLE_STATUS_META: Record<
   string,

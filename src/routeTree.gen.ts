@@ -14,8 +14,10 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CajaRapidaRouteImport } from './routes/caja-rapida'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LlevarIndexRouteImport } from './routes/llevar.index'
+import { Route as DeliveryIndexRouteImport } from './routes/delivery.index'
 import { Route as MesaOrderIdRouteImport } from './routes/mesa.$orderId'
 import { Route as LlevarOrderIdRouteImport } from './routes/llevar.$orderId'
+import { Route as DeliveryOrderIdRouteImport } from './routes/delivery.$orderId'
 import { Route as AdminProductosRouteImport } from './routes/admin.productos'
 import { Route as AdminMesasRouteImport } from './routes/admin.mesas'
 import { Route as AdminExtrasRouteImport } from './routes/admin.extras'
@@ -46,6 +48,11 @@ const LlevarIndexRoute = LlevarIndexRouteImport.update({
   path: '/llevar/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeliveryIndexRoute = DeliveryIndexRouteImport.update({
+  id: '/delivery/',
+  path: '/delivery/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MesaOrderIdRoute = MesaOrderIdRouteImport.update({
   id: '/mesa/$orderId',
   path: '/mesa/$orderId',
@@ -54,6 +61,11 @@ const MesaOrderIdRoute = MesaOrderIdRouteImport.update({
 const LlevarOrderIdRoute = LlevarOrderIdRouteImport.update({
   id: '/llevar/$orderId',
   path: '/llevar/$orderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeliveryOrderIdRoute = DeliveryOrderIdRouteImport.update({
+  id: '/delivery/$orderId',
+  path: '/delivery/$orderId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminProductosRoute = AdminProductosRouteImport.update({
@@ -86,8 +98,10 @@ export interface FileRoutesByFullPath {
   '/admin/extras': typeof AdminExtrasRoute
   '/admin/mesas': typeof AdminMesasRoute
   '/admin/productos': typeof AdminProductosRoute
+  '/delivery/$orderId': typeof DeliveryOrderIdRoute
   '/llevar/$orderId': typeof LlevarOrderIdRoute
   '/mesa/$orderId': typeof MesaOrderIdRoute
+  '/delivery/': typeof DeliveryIndexRoute
   '/llevar/': typeof LlevarIndexRoute
 }
 export interface FileRoutesByTo {
@@ -99,8 +113,10 @@ export interface FileRoutesByTo {
   '/admin/extras': typeof AdminExtrasRoute
   '/admin/mesas': typeof AdminMesasRoute
   '/admin/productos': typeof AdminProductosRoute
+  '/delivery/$orderId': typeof DeliveryOrderIdRoute
   '/llevar/$orderId': typeof LlevarOrderIdRoute
   '/mesa/$orderId': typeof MesaOrderIdRoute
+  '/delivery': typeof DeliveryIndexRoute
   '/llevar': typeof LlevarIndexRoute
 }
 export interface FileRoutesById {
@@ -113,8 +129,10 @@ export interface FileRoutesById {
   '/admin/extras': typeof AdminExtrasRoute
   '/admin/mesas': typeof AdminMesasRoute
   '/admin/productos': typeof AdminProductosRoute
+  '/delivery/$orderId': typeof DeliveryOrderIdRoute
   '/llevar/$orderId': typeof LlevarOrderIdRoute
   '/mesa/$orderId': typeof MesaOrderIdRoute
+  '/delivery/': typeof DeliveryIndexRoute
   '/llevar/': typeof LlevarIndexRoute
 }
 export interface FileRouteTypes {
@@ -128,8 +146,10 @@ export interface FileRouteTypes {
     | '/admin/extras'
     | '/admin/mesas'
     | '/admin/productos'
+    | '/delivery/$orderId'
     | '/llevar/$orderId'
     | '/mesa/$orderId'
+    | '/delivery/'
     | '/llevar/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -141,8 +161,10 @@ export interface FileRouteTypes {
     | '/admin/extras'
     | '/admin/mesas'
     | '/admin/productos'
+    | '/delivery/$orderId'
     | '/llevar/$orderId'
     | '/mesa/$orderId'
+    | '/delivery'
     | '/llevar'
   id:
     | '__root__'
@@ -154,8 +176,10 @@ export interface FileRouteTypes {
     | '/admin/extras'
     | '/admin/mesas'
     | '/admin/productos'
+    | '/delivery/$orderId'
     | '/llevar/$orderId'
     | '/mesa/$orderId'
+    | '/delivery/'
     | '/llevar/'
   fileRoutesById: FileRoutesById
 }
@@ -168,8 +192,10 @@ export interface RootRouteChildren {
   AdminExtrasRoute: typeof AdminExtrasRoute
   AdminMesasRoute: typeof AdminMesasRoute
   AdminProductosRoute: typeof AdminProductosRoute
+  DeliveryOrderIdRoute: typeof DeliveryOrderIdRoute
   LlevarOrderIdRoute: typeof LlevarOrderIdRoute
   MesaOrderIdRoute: typeof MesaOrderIdRoute
+  DeliveryIndexRoute: typeof DeliveryIndexRoute
   LlevarIndexRoute: typeof LlevarIndexRoute
 }
 
@@ -210,6 +236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LlevarIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/delivery/': {
+      id: '/delivery/'
+      path: '/delivery'
+      fullPath: '/delivery/'
+      preLoaderRoute: typeof DeliveryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mesa/$orderId': {
       id: '/mesa/$orderId'
       path: '/mesa/$orderId'
@@ -222,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/llevar/$orderId'
       fullPath: '/llevar/$orderId'
       preLoaderRoute: typeof LlevarOrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delivery/$orderId': {
+      id: '/delivery/$orderId'
+      path: '/delivery/$orderId'
+      fullPath: '/delivery/$orderId'
+      preLoaderRoute: typeof DeliveryOrderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/productos': {
@@ -264,8 +304,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminExtrasRoute: AdminExtrasRoute,
   AdminMesasRoute: AdminMesasRoute,
   AdminProductosRoute: AdminProductosRoute,
+  DeliveryOrderIdRoute: DeliveryOrderIdRoute,
   LlevarOrderIdRoute: LlevarOrderIdRoute,
   MesaOrderIdRoute: MesaOrderIdRoute,
+  DeliveryIndexRoute: DeliveryIndexRoute,
   LlevarIndexRoute: LlevarIndexRoute,
 }
 export const routeTree = rootRouteImport
