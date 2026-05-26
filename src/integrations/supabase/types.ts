@@ -38,6 +38,165 @@ export type Database = {
         }
         Relationships: []
       }
+      employee_attendance: {
+        Row: {
+          created_at: string
+          date: string
+          deduction: number
+          employee_id: string
+          id: string
+          reason: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          deduction?: number
+          employee_id: string
+          id?: string
+          reason?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          deduction?: number
+          employee_id?: string
+          id?: string
+          reason?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employee_consumption: {
+        Row: {
+          amount: number
+          concept: string
+          created_at: string
+          date: string
+          employee_id: string
+          id: string
+          paid: boolean
+        }
+        Insert: {
+          amount?: number
+          concept: string
+          created_at?: string
+          date?: string
+          employee_id: string
+          id?: string
+          paid?: boolean
+        }
+        Update: {
+          amount?: number
+          concept?: string
+          created_at?: string
+          date?: string
+          employee_id?: string
+          id?: string
+          paid?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_consumption_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employee_payroll: {
+        Row: {
+          base_amount: number
+          consumption: number
+          deductions: number
+          employee_id: string
+          id: string
+          kind: string
+          net_paid: number
+          notes: string | null
+          paid_at: string
+          period_end: string | null
+          period_start: string | null
+        }
+        Insert: {
+          base_amount?: number
+          consumption?: number
+          deductions?: number
+          employee_id: string
+          id?: string
+          kind: string
+          net_paid?: number
+          notes?: string | null
+          paid_at?: string
+          period_end?: string | null
+          period_start?: string | null
+        }
+        Update: {
+          base_amount?: number
+          consumption?: number
+          deductions?: number
+          employee_id?: string
+          id?: string
+          kind?: string
+          net_paid?: number
+          notes?: string | null
+          paid_at?: string
+          period_end?: string | null
+          period_start?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_payroll_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employees: {
+        Row: {
+          active: boolean
+          created_at: string
+          day_off: string | null
+          hired_at: string | null
+          id: string
+          name: string
+          role: string | null
+          weekly_salary: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          day_off?: string | null
+          hired_at?: string | null
+          id?: string
+          name: string
+          role?: string | null
+          weekly_salary?: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          day_off?: string | null
+          hired_at?: string | null
+          id?: string
+          name?: string
+          role?: string | null
+          weekly_salary?: number
+        }
+        Relationships: []
+      }
       expenses: {
         Row: {
           amount: number
@@ -181,10 +340,12 @@ export type Database = {
           amount_received: number | null
           closed_at: string | null
           customer_name: string | null
+          delivery_provider: string | null
           guests: number
           id: string
           opened_at: string
           payment_method: string | null
+          queue_number: number | null
           status: string
           subtotal: number
           table_id: string | null
@@ -195,10 +356,12 @@ export type Database = {
           amount_received?: number | null
           closed_at?: string | null
           customer_name?: string | null
+          delivery_provider?: string | null
           guests?: number
           id?: string
           opened_at?: string
           payment_method?: string | null
+          queue_number?: number | null
           status?: string
           subtotal?: number
           table_id?: string | null
@@ -209,10 +372,12 @@ export type Database = {
           amount_received?: number | null
           closed_at?: string | null
           customer_name?: string | null
+          delivery_provider?: string | null
           guests?: number
           id?: string
           opened_at?: string
           payment_method?: string | null
+          queue_number?: number | null
           status?: string
           subtotal?: number
           table_id?: string | null
@@ -272,6 +437,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      restaurant_settings: {
+        Row: {
+          address: string | null
+          id: string
+          name: string
+          phone: string | null
+          ruc: string | null
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          ruc?: string | null
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          ruc?: string | null
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       tables: {
         Row: {
