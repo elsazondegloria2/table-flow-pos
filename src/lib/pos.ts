@@ -8,8 +8,18 @@ export type ExtraRow = Database["public"]["Tables"]["extras"]["Row"];
 export type OrderItemRow = Database["public"]["Tables"]["order_items"]["Row"];
 export type OrderItemExtraRow = Database["public"]["Tables"]["order_item_extras"]["Row"];
 export type ExpenseRow = Database["public"]["Tables"]["expenses"]["Row"];
+export type EmployeeRow = Database["public"]["Tables"]["employees"]["Row"];
+export type AttendanceRow = Database["public"]["Tables"]["employee_attendance"]["Row"];
+export type ConsumptionRow = Database["public"]["Tables"]["employee_consumption"]["Row"];
+export type PayrollRow = Database["public"]["Tables"]["employee_payroll"]["Row"];
+export type SettingsRow = Database["public"]["Tables"]["restaurant_settings"]["Row"];
 
 export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
+
+export const RESTAURANT = {
+  name: "El Sazón de Gloria",
+  tagline: "Almuerzos Caseros",
+};
 
 export const money = (n: number | null | undefined) =>
   `C$ ${Number(n ?? 0).toLocaleString("es-NI", {
@@ -31,6 +41,7 @@ export const ORDER_TYPE_LABEL: Record<string, string> = {
   takeaway: "Para llevar",
   delivery: "Delivery",
   quick_sale: "Caja rápida",
+  quick: "Caja rápida",
 };
 
 export const TABLE_STATUS_META: Record<

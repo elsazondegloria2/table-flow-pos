@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as GastosRouteImport } from './routes/gastos'
+import { Route as EmpleadosRouteImport } from './routes/empleados'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CajaRapidaRouteImport } from './routes/caja-rapida'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,6 +33,11 @@ const ReportesRoute = ReportesRouteImport.update({
 const GastosRoute = GastosRouteImport.update({
   id: '/gastos',
   path: '/gastos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpleadosRoute = EmpleadosRouteImport.update({
+  id: '/empleados',
+  path: '/empleados',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/caja-rapida': typeof CajaRapidaRoute
   '/dashboard': typeof DashboardRoute
+  '/empleados': typeof EmpleadosRoute
   '/gastos': typeof GastosRoute
   '/reportes': typeof ReportesRoute
   '/admin/categorias': typeof AdminCategoriasRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/caja-rapida': typeof CajaRapidaRoute
   '/dashboard': typeof DashboardRoute
+  '/empleados': typeof EmpleadosRoute
   '/gastos': typeof GastosRoute
   '/reportes': typeof ReportesRoute
   '/admin/categorias': typeof AdminCategoriasRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/caja-rapida': typeof CajaRapidaRoute
   '/dashboard': typeof DashboardRoute
+  '/empleados': typeof EmpleadosRoute
   '/gastos': typeof GastosRoute
   '/reportes': typeof ReportesRoute
   '/admin/categorias': typeof AdminCategoriasRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/caja-rapida'
     | '/dashboard'
+    | '/empleados'
     | '/gastos'
     | '/reportes'
     | '/admin/categorias'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/caja-rapida'
     | '/dashboard'
+    | '/empleados'
     | '/gastos'
     | '/reportes'
     | '/admin/categorias'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/caja-rapida'
     | '/dashboard'
+    | '/empleados'
     | '/gastos'
     | '/reportes'
     | '/admin/categorias'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CajaRapidaRoute: typeof CajaRapidaRoute
   DashboardRoute: typeof DashboardRoute
+  EmpleadosRoute: typeof EmpleadosRoute
   GastosRoute: typeof GastosRoute
   ReportesRoute: typeof ReportesRoute
   AdminCategoriasRoute: typeof AdminCategoriasRoute
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/gastos'
       fullPath: '/gastos'
       preLoaderRoute: typeof GastosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empleados': {
+      id: '/empleados'
+      path: '/empleados'
+      fullPath: '/empleados'
+      preLoaderRoute: typeof EmpleadosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CajaRapidaRoute: CajaRapidaRoute,
   DashboardRoute: DashboardRoute,
+  EmpleadosRoute: EmpleadosRoute,
   GastosRoute: GastosRoute,
   ReportesRoute: ReportesRoute,
   AdminCategoriasRoute: AdminCategoriasRoute,
@@ -334,13 +355,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
