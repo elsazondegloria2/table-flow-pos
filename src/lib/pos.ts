@@ -62,9 +62,20 @@ export function printThermal(innerHtml: string, title = "Ticket") {
     }
     setTimeout(() => iframe.remove(), 1500);
   };
-  // Wait for the iframe to be ready
-  if (iframe.contentWindow?.document.readyState === "complete") setTimeout(trigger, 80);
-  else iframe.addEventListener("load", () => setTimeout(trigger, 80));
+  const waitImages = async () => {
+    const idoc = iframe.contentWindow?.document;
+    if (!idoc) return trigger();
+    const imgs = Array.from(idoc.images);
+    await Promise.all(imgs.map((img) =>
+      img.complete ? Promise.resolve() : new Promise<void>((res) => {
+        img.addEventListener("load", () => res(), { once: true });
+        img.addEventListener("error", () => res(), { once: true });
+      })
+    ));
+    setTimeout(trigger, 80);
+  };
+  if (iframe.contentWindow?.document.readyState === "complete") waitImages();
+  else iframe.addEventListener("load", waitImages);
 }
 
 export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
