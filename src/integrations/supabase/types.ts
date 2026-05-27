@@ -441,6 +441,7 @@ export type Database = {
       restaurant_settings: {
         Row: {
           address: string | null
+          delivery_providers: string[]
           id: string
           name: string
           phone: string | null
@@ -450,6 +451,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          delivery_providers?: string[]
           id?: string
           name?: string
           phone?: string | null
@@ -459,6 +461,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          delivery_providers?: string[]
           id?: string
           name?: string
           phone?: string | null

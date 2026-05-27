@@ -1,0 +1,1 @@
+ALTER TABLE public.restaurant_settings ADD COLUMN IF NOT EXISTS delivery_providers text[] NOT NULL DEFAULT ARRAY['Hugo','PedidosYa','Uber Eats','Otro']::text[];
