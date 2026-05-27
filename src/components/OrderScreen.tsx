@@ -422,20 +422,7 @@ function PayModal({
 
   const print = () => {
     const html = ticketRef.current?.innerHTML ?? "";
-    const w = window.open("", "ticket", "width=380,height=600");
-    if (!w) return;
-    w.document.write(`<!doctype html><html><head><title>Factura</title><style>
-      body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#000;background:#fff;padding:12px;font-size:12px}
-      .center{text-align:center}.row{display:flex;justify-content:space-between;gap:8px}
-      hr{border:none;border-top:1px dashed #000;margin:8px 0}
-      .total{font-size:18px;font-weight:900}
-      .big{font-size:22px;font-weight:900}
-      table{width:100%;border-collapse:collapse}td{padding:2px 0;vertical-align:top}
-      .right{text-align:right;white-space:nowrap}
-    </style></head><body>${html}</body></html>`);
-    w.document.close();
-    w.focus();
-    setTimeout(() => { w.print(); w.close(); }, 250);
+    printThermal(html, "Factura");
   };
 
   const confirm = async () => {
