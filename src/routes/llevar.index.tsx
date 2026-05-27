@@ -49,8 +49,8 @@ function TakeawayList() {
     <AppShell>
       <div className="flex h-full flex-col">
         <header className="border-b border-border bg-surface/40 px-8 py-5">
-          <h1 className="text-3xl font-bold">Para llevar</h1>
-          <p className="text-sm text-muted-foreground">Órdenes que no ocupan mesa</p>
+          <h1 className="text-3xl font-bold">Mostrador · Para llevar</h1>
+          <p className="text-sm text-muted-foreground">Cobro rápido y órdenes para llevar. El cliente pide, paga y se le entrega su factura.</p>
         </header>
 
         <div className="border-b border-border bg-surface/20 px-8 py-4">
