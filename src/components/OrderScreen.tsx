@@ -444,36 +444,51 @@ function PayModal({
           </div>
           <div ref={ticketRef} className="rounded-xl bg-white p-4 font-mono text-[12px] leading-tight text-black">
             <div className="center">
-              <div className="text-base font-black uppercase">{RESTAURANT.name}</div>
-              <div className="text-[11px]">{RESTAURANT.tagline}</div>
+              <img src={RESTAURANT.logo} alt={RESTAURANT.name} className="logo mx-auto block max-h-20 object-contain" />
+              <div className="brand">{RESTAURANT.name}</div>
+              <div className="meta">{RESTAURANT.tagline}</div>
+              <div className="meta">{RESTAURANT.address}</div>
+              <div className="meta">Tel: {RESTAURANT.phone}</div>
             </div>
             <hr />
-            <div className="row"><span>{ORDER_TYPE_LABEL[mode]}</span><span>{new Date().toLocaleString("es-NI")}</span></div>
-            {mode === "delivery" && order.queue_number && (
-              <div className="center big">FILA #{order.queue_number}</div>
+            <div className="center">
+              <span className="doc">
+                {mode === "dine_in" ? "FACT. MESA" : mode === "delivery" ? "FACT. DELIVERY" : "FACT. MOSTRADOR"} #{order.id.slice(0, 8).toUpperCase()}
+              </span>
+            </div>
+            <div className="row"><span>Fecha</span><span>{new Date().toLocaleDateString("es-NI")}</span></div>
+            <div className="row"><span>Hora</span><span>{new Date().toLocaleTimeString("es-NI", { hour: "2-digit", minute: "2-digit" })}</span></div>
+            {mode === "delivery" && order.queue_number != null && (
+              <div className="row"><span>Fila</span><span>#{order.queue_number}</span></div>
             )}
             {order.delivery_provider && (
-              <div className="row"><span>Servicio</span><span>{order.delivery_provider}</span></div>
+              <div className="row"><span>Delivery</span><span>{order.delivery_provider}</span></div>
             )}
             {order.customer_name && <div className="row"><span>Cliente</span><span>{order.customer_name}</span></div>}
-            <div className="row"><span>Orden</span><span>#{order.id.slice(0, 8)}</span></div>
             <hr />
-            <table><tbody>
+            <table>
+              <thead>
+                <tr><th>Cant</th><th>Descripción</th><th className="right">Precio</th><th className="right">Importe</th></tr>
+              </thead>
+              <tbody>
               {items.map((it) => {
                 const sub = Number(it.price_snapshot) * it.quantity
                   + it.order_item_extras.reduce((s, e) => s + Number(e.price_snapshot) * e.quantity, 0);
                 return (
                   <tr key={it.id}>
-                    <td>{it.quantity}× {it.name_snapshot}
+                    <td>{it.quantity}</td>
+                    <td>{it.name_snapshot}
                       {it.order_item_extras.map((e) => (
-                        <div key={e.id} style={{ paddingLeft: 12 }}>+ {e.name_snapshot}</div>
+                        <div key={e.id} style={{ paddingLeft: 8, fontSize: 11 }}>+ {e.name_snapshot}</div>
                       ))}
                     </td>
-                    <td className="right">{money(sub)}</td>
+                    <td className="right">{Number(it.price_snapshot).toFixed(2)}</td>
+                    <td className="right">{sub.toFixed(2)}</td>
                   </tr>
                 );
               })}
-            </tbody></table>
+              </tbody>
+            </table>
             <hr />
             <div className="row total"><span>TOTAL</span><span>{money(total)}</span></div>
             <div className="row"><span>Pago ({method})</span><span>{money(receivedNum)}</span></div>
@@ -483,6 +498,7 @@ function PayModal({
             <hr />
             <div className="center">¡Gracias por su visita!</div>
           </div>
+
         </div>
 
         {/* Payment controls */}
