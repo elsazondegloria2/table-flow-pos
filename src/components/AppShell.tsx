@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutGrid, ShoppingBag, Bike, BarChart3, FileText, Wallet, Settings, Users, Flame,
+  LayoutGrid, ShoppingBag, Bike, BarChart3, FileText, Wallet, Settings, Users,
 } from "lucide-react";
 import { RESTAURANT } from "@/lib/pos";
 
@@ -23,11 +23,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <aside className="flex w-24 flex-col items-center gap-2 border-r border-border bg-sidebar py-4">
         <Link
           to="/"
-          className="mb-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground"
+          className="mb-2 flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-white p-1"
           aria-label={RESTAURANT.name}
           title={`${RESTAURANT.name} · ${RESTAURANT.tagline}`}
         >
-          <Flame className="h-7 w-7" />
+          <img src={RESTAURANT.logo} alt={RESTAURANT.name} className="h-full w-full object-contain" />
         </Link>
         <nav className="flex flex-1 flex-col items-center gap-1.5">
           {nav.map(({ to, label, icon: Icon }) => {

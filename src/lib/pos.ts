@@ -24,17 +24,23 @@ export function printThermal(innerHtml: string, title = "Ticket") {
     @page { size: 80mm auto; margin: 0; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; color: #000; }
-    body { font-family: ui-monospace, "Menlo", monospace; font-size: 12px; padding: 6px 8px; width: 80mm; }
+    body { font-family: ui-monospace, "Menlo", monospace; font-size: 12px; padding: 4mm; width: 80mm; }
     .center { text-align: center; }
     .row { display: flex; justify-content: space-between; gap: 8px; }
     .right { text-align: right; white-space: nowrap; }
     hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
     .total { font-size: 16px; font-weight: 900; }
-    .big { font-size: 28px; font-weight: 900; letter-spacing: 1px; }
+    .big { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
     .huge { font-size: 56px; font-weight: 900; line-height: 1; }
     table { width: 100%; border-collapse: collapse; }
-    td { padding: 2px 0; vertical-align: top; }
+    td, th { padding: 2px 0; vertical-align: top; }
+    th { border-bottom: 1px solid #000; text-align: left; font-size: 11px; }
+    img.logo { max-width: 60mm; max-height: 22mm; object-fit: contain; display:block; margin: 0 auto 4px; }
+    .brand { font-size: 14px; font-weight: 900; text-transform: uppercase; }
+    .meta { font-size: 11px; }
+    .doc { font-size: 13px; font-weight: 800; border: 1px solid #000; padding: 2px 6px; display:inline-block; margin: 4px 0; }
   `;
+
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>${css}</style></head><body>${innerHtml}</body></html>`;
   // Remove any previous print iframe
   document.querySelectorAll("iframe[data-print-frame]").forEach((n) => n.remove());
@@ -56,9 +62,20 @@ export function printThermal(innerHtml: string, title = "Ticket") {
     }
     setTimeout(() => iframe.remove(), 1500);
   };
-  // Wait for the iframe to be ready
-  if (iframe.contentWindow?.document.readyState === "complete") setTimeout(trigger, 80);
-  else iframe.addEventListener("load", () => setTimeout(trigger, 80));
+  const waitImages = async () => {
+    const idoc = iframe.contentWindow?.document;
+    if (!idoc) return trigger();
+    const imgs = Array.from(idoc.images);
+    await Promise.all(imgs.map((img) =>
+      img.complete ? Promise.resolve() : new Promise<void>((res) => {
+        img.addEventListener("load", () => res(), { once: true });
+        img.addEventListener("error", () => res(), { once: true });
+      })
+    ));
+    setTimeout(trigger, 80);
+  };
+  if (iframe.contentWindow?.document.readyState === "complete") waitImages();
+  else iframe.addEventListener("load", waitImages);
 }
 
 export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
@@ -66,6 +83,9 @@ export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
 export const RESTAURANT = {
   name: "El Sazón de Gloria",
   tagline: "Almuerzos Caseros",
+  phone: "7616 9398",
+  address: "De Banpro 1 1/2 al este",
+  logo: "/logo.png",
 };
 
 export const money = (n: number | null | undefined) =>
