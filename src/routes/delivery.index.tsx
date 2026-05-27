@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/delivery/")({ component: DeliveryList });
 
-const PROVIDERS = ["Hugo", "PedidosYa", "Uber Eats", "Otro"];
+const DEFAULT_PROVIDERS = ["Hugo", "PedidosYa", "Uber Eats", "Otro"];
 
 function DeliveryList() {
   const qc = useQueryClient();
