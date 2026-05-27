@@ -544,3 +544,39 @@ function PayModal({
     </div>
   );
 }
+
+function printKitchenTicket(order: OrderRow, items: ItemWithExtras[], mode: OrderType) {
+  const ts = new Date().toLocaleString("es-NI");
+  const titleLine = mode === "delivery"
+    ? `DELIVERY · FILA #${order.queue_number ?? "—"}`
+    : mode === "dine_in"
+      ? `MESA`
+      : `PARA LLEVAR`;
+  const subLine = [
+    order.delivery_provider,
+    order.customer_name,
+    `Orden #${order.id.slice(0, 8)}`,
+  ].filter(Boolean).join(" · ");
+  const rows = items.map((it) => `
+    <tr><td><b>${it.quantity}×</b> ${escapeHtml(it.name_snapshot)}
+      ${it.order_item_extras.map((e) => `<div style="padding-left:14px">+ ${escapeHtml(e.name_snapshot)}</div>`).join("")}
+      ${it.notes ? `<div style="padding-left:14px;font-style:italic">📝 ${escapeHtml(it.notes)}</div>` : ""}
+    </td></tr>`).join("");
+  const html = `
+    <div class="center"><b>COMANDA · COCINA</b></div>
+    <div class="center" style="font-size:11px">${ts}</div>
+    <hr/>
+    <div class="center big">${titleLine}</div>
+    ${mode === "delivery" && order.queue_number ? `<div class="center huge">#${order.queue_number}</div>` : ""}
+    ${subLine ? `<div class="center" style="font-size:11px">${escapeHtml(subLine)}</div>` : ""}
+    <hr/>
+    <table><tbody>${rows}</tbody></table>
+    <hr/>
+    <div class="center">— fin —</div>
+  `;
+  printThermal(html, "Comanda");
+}
+
+function escapeHtml(s: string) {
+  return s.replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]!));
+}
