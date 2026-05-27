@@ -66,6 +66,9 @@ export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
 export const RESTAURANT = {
   name: "El Sazón de Gloria",
   tagline: "Almuerzos Caseros",
+  phone: "7616 9398",
+  address: "De Banpro 1 1/2 al este",
+  logo: "/logo.png",
 };
 
 export const money = (n: number | null | undefined) =>
