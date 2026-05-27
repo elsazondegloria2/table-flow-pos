@@ -579,12 +579,17 @@ function printKitchenTicket(order: OrderRow, items: ItemWithExtras[], mode: Orde
       ${it.notes ? `<div style="padding-left:14px;font-style:italic">📝 ${escapeHtml(it.notes)}</div>` : ""}
     </td></tr>`).join("");
   const html = `
+    <div class="center">
+      <img class="logo" src="${RESTAURANT.logo}" alt="logo" />
+      <div class="brand">${escapeHtml(RESTAURANT.name)}</div>
+    </div>
+    <hr/>
     <div class="center"><b>COMANDA · COCINA</b></div>
-    <div class="center" style="font-size:11px">${ts}</div>
+    <div class="center meta">${ts}</div>
     <hr/>
     <div class="center big">${titleLine}</div>
     ${mode === "delivery" && order.queue_number ? `<div class="center huge">#${order.queue_number}</div>` : ""}
-    ${subLine ? `<div class="center" style="font-size:11px">${escapeHtml(subLine)}</div>` : ""}
+    ${subLine ? `<div class="center meta">${escapeHtml(subLine)}</div>` : ""}
     <hr/>
     <table><tbody>${rows}</tbody></table>
     <hr/>
