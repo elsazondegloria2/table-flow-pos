@@ -14,6 +14,53 @@ export type ConsumptionRow = Database["public"]["Tables"]["employee_consumption"
 export type PayrollRow = Database["public"]["Tables"]["employee_payroll"]["Row"];
 export type SettingsRow = Database["public"]["Tables"]["restaurant_settings"]["Row"];
 
+/**
+ * Imprime contenido HTML directamente al diálogo del sistema (térmica 80 mm).
+ * Usa un iframe oculto para evitar que el navegador "Guarde como PDF" por defecto
+ * y abre el cuadro de impresión donde se selecciona la AON Business PR‑200.
+ */
+export function printThermal(innerHtml: string, title = "Ticket") {
+  const css = `
+    @page { size: 80mm auto; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #fff; color: #000; }
+    body { font-family: ui-monospace, "Menlo", monospace; font-size: 12px; padding: 6px 8px; width: 80mm; }
+    .center { text-align: center; }
+    .row { display: flex; justify-content: space-between; gap: 8px; }
+    .right { text-align: right; white-space: nowrap; }
+    hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
+    .total { font-size: 16px; font-weight: 900; }
+    .big { font-size: 28px; font-weight: 900; letter-spacing: 1px; }
+    .huge { font-size: 56px; font-weight: 900; line-height: 1; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 2px 0; vertical-align: top; }
+  `;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>${css}</style></head><body>${innerHtml}</body></html>`;
+  // Remove any previous print iframe
+  document.querySelectorAll("iframe[data-print-frame]").forEach((n) => n.remove());
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("data-print-frame", "1");
+  iframe.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;";
+  document.body.appendChild(iframe);
+  const doc = iframe.contentWindow?.document;
+  if (!doc) return;
+  doc.open();
+  doc.write(html);
+  doc.close();
+  const trigger = () => {
+    try {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+    } catch (e) {
+      console.error(e);
+    }
+    setTimeout(() => iframe.remove(), 1500);
+  };
+  // Wait for the iframe to be ready
+  if (iframe.contentWindow?.document.readyState === "complete") setTimeout(trigger, 80);
+  else iframe.addEventListener("load", () => setTimeout(trigger, 80));
+}
+
 export type OrderType = "dine_in" | "takeaway" | "delivery" | "quick_sale";
 
 export const RESTAURANT = {
