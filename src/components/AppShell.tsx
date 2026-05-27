@@ -1,14 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutGrid, ShoppingBag, Bike, Zap, BarChart3, FileText, Wallet, Settings, Users, Flame,
+  LayoutGrid, ShoppingBag, Bike, BarChart3, FileText, Wallet, Settings, Users, Flame,
 } from "lucide-react";
 import { RESTAURANT } from "@/lib/pos";
 
 const nav = [
   { to: "/", label: "Mesas", icon: LayoutGrid },
-  { to: "/llevar", label: "Llevar", icon: ShoppingBag },
+  { to: "/llevar", label: "Mostrador", icon: ShoppingBag },
   { to: "/delivery", label: "Delivery", icon: Bike },
-  { to: "/caja-rapida", label: "Caja", icon: Zap },
   { to: "/dashboard", label: "Inicio", icon: BarChart3 },
   { to: "/reportes", label: "Reportes", icon: FileText },
   { to: "/gastos", label: "Gastos", icon: Wallet },

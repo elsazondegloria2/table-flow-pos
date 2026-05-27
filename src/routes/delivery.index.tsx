@@ -9,12 +9,20 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/delivery/")({ component: DeliveryList });
 
-const PROVIDERS = ["Hugo", "PedidosYa", "Uber Eats", "Otro"];
+const DEFAULT_PROVIDERS = ["Hugo", "PedidosYa", "Uber Eats", "Otro"];
 
 function DeliveryList() {
   const qc = useQueryClient();
   const navigate = useNavigate();
-  const [provider, setProvider] = useState<string>("Hugo");
+  const { data: settings } = useQuery({
+    queryKey: ["restaurant-settings"],
+    queryFn: async () => {
+      const { data } = await supabase.from("restaurant_settings").select("*").limit(1).maybeSingle();
+      return data;
+    },
+  });
+  const providers: string[] = (settings?.delivery_providers as string[] | null) ?? DEFAULT_PROVIDERS;
+  const [provider, setProvider] = useState<string>(providers[0] ?? "Otro");
   const [reference, setReference] = useState("");
 
   const { data: orders = [] } = useQuery({
@@ -73,7 +81,7 @@ function DeliveryList() {
 
         <div className="border-b border-border bg-surface/20 px-8 py-4 space-y-3">
           <div className="flex flex-wrap gap-2">
-            {PROVIDERS.map((p) => (
+            {providers.map((p: string) => (
               <button key={p} onClick={() => setProvider(p)}
                 className={`tap-hi rounded-xl px-4 py-2.5 text-sm font-semibold ${
                   provider === p ? "bg-primary text-primary-foreground" : "bg-surface hover:bg-surface-2"

@@ -24,6 +24,7 @@ import { Route as AdminProductosRouteImport } from './routes/admin.productos'
 import { Route as AdminMesasRouteImport } from './routes/admin.mesas'
 import { Route as AdminExtrasRouteImport } from './routes/admin.extras'
 import { Route as AdminCategoriasRouteImport } from './routes/admin.categorias'
+import { Route as AdminAjustesRouteImport } from './routes/admin.ajustes'
 
 const ReportesRoute = ReportesRouteImport.update({
   id: '/reportes',
@@ -100,6 +101,11 @@ const AdminCategoriasRoute = AdminCategoriasRouteImport.update({
   path: '/admin/categorias',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAjustesRoute = AdminAjustesRouteImport.update({
+  id: '/admin/ajustes',
+  path: '/admin/ajustes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/empleados': typeof EmpleadosRoute
   '/gastos': typeof GastosRoute
   '/reportes': typeof ReportesRoute
+  '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/categorias': typeof AdminCategoriasRoute
   '/admin/extras': typeof AdminExtrasRoute
   '/admin/mesas': typeof AdminMesasRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/empleados': typeof EmpleadosRoute
   '/gastos': typeof GastosRoute
   '/reportes': typeof ReportesRoute
+  '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/categorias': typeof AdminCategoriasRoute
   '/admin/extras': typeof AdminExtrasRoute
   '/admin/mesas': typeof AdminMesasRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/empleados': typeof EmpleadosRoute
   '/gastos': typeof GastosRoute
   '/reportes': typeof ReportesRoute
+  '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/categorias': typeof AdminCategoriasRoute
   '/admin/extras': typeof AdminExtrasRoute
   '/admin/mesas': typeof AdminMesasRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/empleados'
     | '/gastos'
     | '/reportes'
+    | '/admin/ajustes'
     | '/admin/categorias'
     | '/admin/extras'
     | '/admin/mesas'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/empleados'
     | '/gastos'
     | '/reportes'
+    | '/admin/ajustes'
     | '/admin/categorias'
     | '/admin/extras'
     | '/admin/mesas'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/empleados'
     | '/gastos'
     | '/reportes'
+    | '/admin/ajustes'
     | '/admin/categorias'
     | '/admin/extras'
     | '/admin/mesas'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   EmpleadosRoute: typeof EmpleadosRoute
   GastosRoute: typeof GastosRoute
   ReportesRoute: typeof ReportesRoute
+  AdminAjustesRoute: typeof AdminAjustesRoute
   AdminCategoriasRoute: typeof AdminCategoriasRoute
   AdminExtrasRoute: typeof AdminExtrasRoute
   AdminMesasRoute: typeof AdminMesasRoute
@@ -332,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCategoriasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/ajustes': {
+      id: '/admin/ajustes'
+      path: '/admin/ajustes'
+      fullPath: '/admin/ajustes'
+      preLoaderRoute: typeof AdminAjustesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -342,6 +362,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmpleadosRoute: EmpleadosRoute,
   GastosRoute: GastosRoute,
   ReportesRoute: ReportesRoute,
+  AdminAjustesRoute: AdminAjustesRoute,
   AdminCategoriasRoute: AdminCategoriasRoute,
   AdminExtrasRoute: AdminExtrasRoute,
   AdminMesasRoute: AdminMesasRoute,
@@ -355,3 +376,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

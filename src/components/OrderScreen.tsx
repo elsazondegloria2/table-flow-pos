@@ -7,6 +7,7 @@ import {
   elapsed,
   ORDER_TYPE_LABEL,
   RESTAURANT,
+  printThermal,
   type OrderType,
   type ProductRow,
   type CategoryRow,
@@ -271,11 +272,18 @@ export function OrderScreen({ orderId, mode }: { orderId: string; mode: OrderTyp
           )}
         </div>
 
-        <footer className="border-t border-border p-4">
-          <div className="mb-4 flex items-baseline justify-between">
+        <footer className="border-t border-border p-4 space-y-2">
+          <div className="flex items-baseline justify-between">
             <span className="text-sm uppercase tracking-wider text-muted-foreground">Total</span>
             <span className="text-4xl font-black tabular-nums text-primary">{money(total)}</span>
           </div>
+          <button
+            onClick={() => printKitchenTicket(order, items, mode)}
+            disabled={items.length === 0}
+            className="tap-hi flex w-full items-center justify-center gap-2 rounded-xl bg-surface py-3 text-sm font-bold hover:bg-surface-2 disabled:opacity-40"
+          >
+            <Printer className="h-5 w-5" /> Imprimir comanda (cocina)
+          </button>
           <button
             onClick={() => setPaying(true)}
             disabled={items.length === 0}
@@ -414,20 +422,7 @@ function PayModal({
 
   const print = () => {
     const html = ticketRef.current?.innerHTML ?? "";
-    const w = window.open("", "ticket", "width=380,height=600");
-    if (!w) return;
-    w.document.write(`<!doctype html><html><head><title>Factura</title><style>
-      body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#000;background:#fff;padding:12px;font-size:12px}
-      .center{text-align:center}.row{display:flex;justify-content:space-between;gap:8px}
-      hr{border:none;border-top:1px dashed #000;margin:8px 0}
-      .total{font-size:18px;font-weight:900}
-      .big{font-size:22px;font-weight:900}
-      table{width:100%;border-collapse:collapse}td{padding:2px 0;vertical-align:top}
-      .right{text-align:right;white-space:nowrap}
-    </style></head><body>${html}</body></html>`);
-    w.document.close();
-    w.focus();
-    setTimeout(() => { w.print(); w.close(); }, 250);
+    printThermal(html, "Factura");
   };
 
   const confirm = async () => {
@@ -548,4 +543,40 @@ function PayModal({
       </div>
     </div>
   );
+}
+
+function printKitchenTicket(order: OrderRow, items: ItemWithExtras[], mode: OrderType) {
+  const ts = new Date().toLocaleString("es-NI");
+  const titleLine = mode === "delivery"
+    ? `DELIVERY · FILA #${order.queue_number ?? "—"}`
+    : mode === "dine_in"
+      ? `MESA`
+      : `PARA LLEVAR`;
+  const subLine = [
+    order.delivery_provider,
+    order.customer_name,
+    `Orden #${order.id.slice(0, 8)}`,
+  ].filter(Boolean).join(" · ");
+  const rows = items.map((it) => `
+    <tr><td><b>${it.quantity}×</b> ${escapeHtml(it.name_snapshot)}
+      ${it.order_item_extras.map((e) => `<div style="padding-left:14px">+ ${escapeHtml(e.name_snapshot)}</div>`).join("")}
+      ${it.notes ? `<div style="padding-left:14px;font-style:italic">📝 ${escapeHtml(it.notes)}</div>` : ""}
+    </td></tr>`).join("");
+  const html = `
+    <div class="center"><b>COMANDA · COCINA</b></div>
+    <div class="center" style="font-size:11px">${ts}</div>
+    <hr/>
+    <div class="center big">${titleLine}</div>
+    ${mode === "delivery" && order.queue_number ? `<div class="center huge">#${order.queue_number}</div>` : ""}
+    ${subLine ? `<div class="center" style="font-size:11px">${escapeHtml(subLine)}</div>` : ""}
+    <hr/>
+    <table><tbody>${rows}</tbody></table>
+    <hr/>
+    <div class="center">— fin —</div>
+  `;
+  printThermal(html, "Comanda");
+}
+
+function escapeHtml(s: string) {
+  return s.replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]!));
 }
