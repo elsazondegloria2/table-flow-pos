@@ -81,7 +81,7 @@ function DeliveryList() {
 
         <div className="border-b border-border bg-surface/20 px-8 py-4 space-y-3">
           <div className="flex flex-wrap gap-2">
-            {PROVIDERS.map((p) => (
+            {providers.map((p: string) => (
               <button key={p} onClick={() => setProvider(p)}
                 className={`tap-hi rounded-xl px-4 py-2.5 text-sm font-semibold ${
                   provider === p ? "bg-primary text-primary-foreground" : "bg-surface hover:bg-surface-2"
