@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutGrid, ShoppingBag, Bike, BarChart3, FileText, Wallet, Settings, Users, Flame,
+  LayoutGrid, ShoppingBag, Bike, BarChart3, FileText, Wallet, Settings, Users,
 } from "lucide-react";
 import { RESTAURANT } from "@/lib/pos";
 
