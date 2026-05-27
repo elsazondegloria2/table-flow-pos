@@ -272,11 +272,18 @@ export function OrderScreen({ orderId, mode }: { orderId: string; mode: OrderTyp
           )}
         </div>
 
-        <footer className="border-t border-border p-4">
-          <div className="mb-4 flex items-baseline justify-between">
+        <footer className="border-t border-border p-4 space-y-2">
+          <div className="flex items-baseline justify-between">
             <span className="text-sm uppercase tracking-wider text-muted-foreground">Total</span>
             <span className="text-4xl font-black tabular-nums text-primary">{money(total)}</span>
           </div>
+          <button
+            onClick={() => printKitchenTicket(order, items, mode)}
+            disabled={items.length === 0}
+            className="tap-hi flex w-full items-center justify-center gap-2 rounded-xl bg-surface py-3 text-sm font-bold hover:bg-surface-2 disabled:opacity-40"
+          >
+            <Printer className="h-5 w-5" /> Imprimir comanda (cocina)
+          </button>
           <button
             onClick={() => setPaying(true)}
             disabled={items.length === 0}
