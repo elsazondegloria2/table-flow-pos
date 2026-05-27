@@ -5,6 +5,7 @@ const tabs = [
   { to: "/admin/categorias", label: "Categorías" },
   { to: "/admin/extras", label: "Extras" },
   { to: "/admin/mesas", label: "Mesas" },
+  { to: "/admin/ajustes", label: "Ajustes" },
 ] as const;
 
 export function AdminTabs() {
