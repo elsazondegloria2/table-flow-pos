@@ -7,6 +7,7 @@ import {
   elapsed,
   ORDER_TYPE_LABEL,
   RESTAURANT,
+  printThermal,
   type OrderType,
   type ProductRow,
   type CategoryRow,
