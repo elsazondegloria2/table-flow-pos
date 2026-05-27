@@ -14,7 +14,15 @@ const DEFAULT_PROVIDERS = ["Hugo", "PedidosYa", "Uber Eats", "Otro"];
 function DeliveryList() {
   const qc = useQueryClient();
   const navigate = useNavigate();
-  const [provider, setProvider] = useState<string>("Hugo");
+  const { data: settings } = useQuery({
+    queryKey: ["restaurant-settings"],
+    queryFn: async () => {
+      const { data } = await supabase.from("restaurant_settings").select("*").limit(1).maybeSingle();
+      return data;
+    },
+  });
+  const providers: string[] = (settings?.delivery_providers as string[] | null) ?? DEFAULT_PROVIDERS;
+  const [provider, setProvider] = useState<string>(providers[0] ?? "Otro");
   const [reference, setReference] = useState("");
 
   const { data: orders = [] } = useQuery({
