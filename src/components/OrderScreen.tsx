@@ -103,9 +103,8 @@ export function OrderScreen({ orderId, mode }: { orderId: string; mode: OrderTyp
       if (error) throw error;
       return inserted as ItemWithExtras;
     },
-    onSuccess: (item) => {
+    onSuccess: () => {
       invalidate();
-      if (extras.length > 0) setEditing(item);
     },
     onError: (e: Error) => toast.error(e.message),
   });
@@ -422,13 +421,23 @@ function PayModal({
 
   const print = () => {
     const html = ticketRef.current?.innerHTML ?? "";
-    printThermal(html, "Factura");
+    if (html) printThermal(html, "Factura");
   };
 
   const confirm = async () => {
-    await onPay({ method, received: receivedNum || total });
+    // Capture HTML BEFORE onPay (which closes modal and unmounts ticketRef)
+    const html = ticketRef.current?.innerHTML ?? "";
     setPaid(true);
-    setTimeout(print, 100);
+    if (html) printThermal(html, "Factura");
+    setTimeout(() => onPay({ method, received: receivedNum || total }), 250);
+  };
+
+  const pad = (k: string) => {
+    if (paid) return;
+    if (k === "C") return setReceived("");
+    if (k === "←") return setReceived((r) => r.slice(0, -1));
+    if (k === ".") return setReceived((r) => (r.includes(".") ? r : (r || "0") + "."));
+    setReceived((r) => (r === "0" ? k : r + k));
   };
 
   return (
@@ -523,9 +532,8 @@ function PayModal({
           {method === "efectivo" && (
             <div className="mb-3 space-y-2">
               <label className="text-xs uppercase tracking-wider text-muted-foreground">Recibido del cliente</label>
-              <input type="number" inputMode="decimal" value={received} disabled={paid}
-                onChange={(e) => setReceived(e.target.value)}
-                className="w-full rounded-xl bg-surface px-4 py-4 text-3xl font-bold tabular-nums outline-none focus:ring-2 focus:ring-primary" />
+              <input type="text" inputMode="decimal" value={received} disabled={paid} readOnly
+                className="w-full rounded-xl bg-surface px-4 py-4 text-right text-3xl font-bold tabular-nums outline-none focus:ring-2 focus:ring-primary" />
               <div className="grid grid-cols-4 gap-1">
                 {[total, Math.ceil(total/50)*50, Math.ceil(total/100)*100, Math.ceil(total/500)*500].map((q, i) => (
                   <button key={i} onClick={() => setReceived(q.toFixed(2))} disabled={paid}
@@ -533,6 +541,18 @@ function PayModal({
                     {money(q)}
                   </button>
                 ))}
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {["1","2","3","4","5","6","7","8","9",".","0","←"].map((k) => (
+                  <button key={k} onClick={() => pad(k)} disabled={paid}
+                    className="tap-hi rounded-xl bg-surface-2 py-4 text-2xl font-bold hover:bg-primary/20 disabled:opacity-40">
+                    {k}
+                  </button>
+                ))}
+                <button onClick={() => pad("C")} disabled={paid}
+                  className="tap-hi col-span-3 rounded-xl bg-destructive/15 py-2 text-sm font-bold text-destructive hover:bg-destructive/25">
+                  Borrar
+                </button>
               </div>
               <div className="flex items-baseline justify-between rounded-xl bg-success/15 px-4 py-3">
                 <span className="text-sm font-semibold text-success">Cambio</span>

@@ -82,7 +82,7 @@ function AdminProducts() {
             {products.length} productos · {products.filter((p) => p.available).length} disponibles hoy
           </div>
           <button
-            onClick={() => setEditing({ name: "", price: 0, emoji: "🍽️", available: true })}
+            onClick={() => setEditing({ name: "", emoji: "🍽️", available: true })}
             className="tap-hi flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground"
           >
             <Plus className="h-5 w-5" /> Nuevo platillo
@@ -196,8 +196,11 @@ function EditModal({
           </Field>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Precio (C$)">
-              <input type="number" step="0.01" value={editing.price ?? 0}
-                onChange={(e) => setEditing({ ...editing, price: Number(e.target.value) })} className="input" />
+              <input type="text" inputMode="decimal" value={editing.price ?? ""}
+                onChange={(e) => {
+                  const v = e.target.value.replace(/[^0-9.]/g, "");
+                  setEditing({ ...editing, price: v === "" ? (null as unknown as number) : Number(v) });
+                }} className="input" />
             </Field>
             <Field label="Emoji (fallback)">
               <input value={editing.emoji ?? ""} onChange={(e) => setEditing({ ...editing, emoji: e.target.value })} className="input" />

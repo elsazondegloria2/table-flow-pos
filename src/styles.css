@@ -141,3 +141,12 @@
   body { background: white; color: black; }
   .no-print { display: none !important; }
 }
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body, #reports-root, main { background: white !important; color: black !important; height: auto !important; overflow: visible !important; }
+  aside, .print\:hidden { display: none !important; }
+  .rounded-3xl, .rounded-2xl, .bg-surface, .bg-surface\/40, .bg-surface\/20 { background: #fff !important; box-shadow: none !important; border: 1px solid #ddd !important; }
+  .text-primary { color: #c2410c !important; }
+  .text-muted-foreground { color: #555 !important; }
+}
