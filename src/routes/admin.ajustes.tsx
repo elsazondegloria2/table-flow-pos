@@ -1,13 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
 import { AdminTabs } from "@/components/AdminTabs";
-import { Plus, Save, Trash2 } from "lucide-react";
+import { Plus, Save, Trash2, Download, Upload, AlertTriangle, Database } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/ajustes")({ component: Ajustes });
+
+// Tablas incluidas en el respaldo completo (datos operativos)
+const BACKUP_TABLES = [
+  "restaurant_settings",
+  "categories",
+  "products",
+  "extras",
+  "tables",
+  "orders",
+  "order_items",
+  "order_item_extras",
+  "expenses",
+  "employees",
+  "employee_attendance",
+  "employee_consumption",
+  "employee_payroll",
+] as const;
+
+// Tablas que se vacían al "Restablecer reportes" (sólo histórico de ventas/gastos)
+const RESET_REPORT_TABLES = [
+  "order_item_extras",
+  "order_items",
+  "orders",
+  "expenses",
+  "employee_attendance",
+  "employee_consumption",
+  "employee_payroll",
+] as const;
 
 function Ajustes() {
   const qc = useQueryClient();
