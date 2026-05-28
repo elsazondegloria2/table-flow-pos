@@ -80,6 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Sistema POS para restaurante" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "POS Restaurante" },
+      { name: "twitter:description", content: "Sistema POS para restaurante" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6aff320e-8ad4-4c4e-ae70-be15c959cc20/id-preview-7d19397b--bb3f79e0-0377-40ca-b276-36e38324c7ad.lovable.app-1779929630486.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6aff320e-8ad4-4c4e-ae70-be15c959cc20/id-preview-7d19397b--bb3f79e0-0377-40ca-b276-36e38324c7ad.lovable.app-1779929630486.png" },
     ],
     links: [
       {
