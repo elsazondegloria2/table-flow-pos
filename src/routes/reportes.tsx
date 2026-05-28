@@ -89,19 +89,23 @@ function Reports() {
 
   return (
     <AppShell>
-      <div className="flex h-full flex-col overflow-y-auto">
-        <header className="flex items-center justify-between border-b border-border bg-surface/40 px-8 py-5">
+      <div className="flex h-full flex-col overflow-y-auto" id="reports-root">
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-surface/40 px-8 py-5 print:hidden">
           <div>
             <h1 className="text-3xl font-bold">Reportes</h1>
             <p className="text-sm text-muted-foreground">Análisis ejecutivo de ventas</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {(["day", "week", "month"] as Period[]).map((p) => (
               <button key={p} onClick={() => setPeriod(p)}
                 className={`tap-hi rounded-xl px-5 py-2.5 text-sm font-semibold ${period === p ? "bg-primary text-primary-foreground" : "bg-surface hover:bg-surface-2"}`}>
                 {p === "day" ? "Hoy" : p === "week" ? "Semana" : "Mes"}
               </button>
             ))}
+            <button onClick={() => window.print()}
+              className="tap-hi rounded-xl bg-primary/20 px-5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/30">
+              📄 Imprimir / Guardar PDF
+            </button>
           </div>
         </header>
 
