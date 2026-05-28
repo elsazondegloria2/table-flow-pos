@@ -1,4 +1,7 @@
-# Netlify SPA fallback
+[build]
+  publish = "dist"
+  command = "bun run build"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
