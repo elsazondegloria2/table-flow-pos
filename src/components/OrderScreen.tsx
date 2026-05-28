@@ -511,14 +511,14 @@ function PayModal({
         </div>
 
         {/* Payment controls */}
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-auto max-h-[55vh] md:max-h-[91vh]">
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-bold">{paid ? "Pagado" : "Cobrar"}</h3>
             <button onClick={onClose} className="rounded-lg p-2 hover:bg-surface"><X className="h-5 w-5" /></button>
           </div>
-          <div className="mb-3 rounded-2xl bg-primary/15 p-5 text-center ring-2 ring-inset ring-primary/30">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Total a cobrar</div>
-            <div className="text-5xl font-black tabular-nums text-primary">{money(total)}</div>
+          <div className="mb-3 rounded-2xl bg-primary/15 p-3 text-center ring-2 ring-inset ring-primary/30">
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Total a cobrar</div>
+            <div className="text-3xl font-black tabular-nums text-primary">{money(total)}</div>
           </div>
           <div className="mb-3 grid grid-cols-3 gap-2">
             {[{ v: "efectivo", l: "Efectivo" }, { v: "tarjeta", l: "Tarjeta" }, { v: "transferencia", l: "Transfer." }].map((m) => (
