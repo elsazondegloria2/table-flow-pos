@@ -441,10 +441,10 @@ function PayModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
-      <div className="grid w-full max-w-3xl gap-4 rounded-3xl bg-card p-6 shadow-2xl md:grid-cols-[1fr_1fr]" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-2 sm:p-4" onClick={onClose}>
+      <div className="grid w-full max-w-3xl max-h-[95vh] gap-3 rounded-2xl bg-card p-3 sm:p-4 shadow-2xl md:grid-cols-[1fr_1fr] overflow-hidden" onClick={(e) => e.stopPropagation()}>
         {/* Receipt preview */}
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-auto max-h-[40vh] md:max-h-[91vh]">
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-bold">Vista previa</h3>
             <button onClick={print} className="tap-hi flex items-center gap-1 rounded-lg bg-surface px-3 py-1.5 text-xs font-semibold hover:bg-surface-2">
