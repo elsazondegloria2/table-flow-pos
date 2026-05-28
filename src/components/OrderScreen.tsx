@@ -441,10 +441,10 @@ function PayModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
-      <div className="grid w-full max-w-3xl gap-4 rounded-3xl bg-card p-6 shadow-2xl md:grid-cols-[1fr_1fr]" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-2 sm:p-4" onClick={onClose}>
+      <div className="grid w-full max-w-3xl max-h-[95vh] gap-3 rounded-2xl bg-card p-3 sm:p-4 shadow-2xl md:grid-cols-[1fr_1fr] overflow-hidden" onClick={(e) => e.stopPropagation()}>
         {/* Receipt preview */}
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-auto max-h-[40vh] md:max-h-[91vh]">
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-bold">Vista previa</h3>
             <button onClick={print} className="tap-hi flex items-center gap-1 rounded-lg bg-surface px-3 py-1.5 text-xs font-semibold hover:bg-surface-2">
@@ -511,14 +511,14 @@ function PayModal({
         </div>
 
         {/* Payment controls */}
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-auto max-h-[55vh] md:max-h-[91vh]">
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-bold">{paid ? "Pagado" : "Cobrar"}</h3>
             <button onClick={onClose} className="rounded-lg p-2 hover:bg-surface"><X className="h-5 w-5" /></button>
           </div>
-          <div className="mb-3 rounded-2xl bg-primary/15 p-5 text-center ring-2 ring-inset ring-primary/30">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Total a cobrar</div>
-            <div className="text-5xl font-black tabular-nums text-primary">{money(total)}</div>
+          <div className="mb-3 rounded-2xl bg-primary/15 p-3 text-center ring-2 ring-inset ring-primary/30">
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Total a cobrar</div>
+            <div className="text-3xl font-black tabular-nums text-primary">{money(total)}</div>
           </div>
           <div className="mb-3 grid grid-cols-3 gap-2">
             {[{ v: "efectivo", l: "Efectivo" }, { v: "tarjeta", l: "Tarjeta" }, { v: "transferencia", l: "Transfer." }].map((m) => (
@@ -533,44 +533,44 @@ function PayModal({
             <div className="mb-3 space-y-2">
               <label className="text-xs uppercase tracking-wider text-muted-foreground">Recibido del cliente</label>
               <input type="text" inputMode="decimal" value={received} disabled={paid} readOnly
-                className="w-full rounded-xl bg-surface px-4 py-4 text-right text-3xl font-bold tabular-nums outline-none focus:ring-2 focus:ring-primary" />
+                className="w-full rounded-xl bg-surface px-3 py-2 text-right text-2xl font-bold tabular-nums outline-none focus:ring-2 focus:ring-primary" />
               <div className="grid grid-cols-4 gap-1">
                 {[total, Math.ceil(total/50)*50, Math.ceil(total/100)*100, Math.ceil(total/500)*500].map((q, i) => (
                   <button key={i} onClick={() => setReceived(q.toFixed(2))} disabled={paid}
-                    className="tap-hi rounded-lg bg-surface py-2 text-xs font-semibold hover:bg-surface-2">
+                    className="tap-hi rounded-lg bg-surface py-1.5 text-[11px] font-semibold hover:bg-surface-2">
                     {money(q)}
                   </button>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 {["1","2","3","4","5","6","7","8","9",".","0","←"].map((k) => (
                   <button key={k} onClick={() => pad(k)} disabled={paid}
-                    className="tap-hi rounded-xl bg-surface-2 py-4 text-2xl font-bold hover:bg-primary/20 disabled:opacity-40">
+                    className="tap-hi rounded-lg bg-surface-2 py-2.5 text-lg font-bold hover:bg-primary/20 disabled:opacity-40">
                     {k}
                   </button>
                 ))}
                 <button onClick={() => pad("C")} disabled={paid}
-                  className="tap-hi col-span-3 rounded-xl bg-destructive/15 py-2 text-sm font-bold text-destructive hover:bg-destructive/25">
+                  className="tap-hi col-span-3 rounded-lg bg-destructive/15 py-1.5 text-xs font-bold text-destructive hover:bg-destructive/25">
                   Borrar
                 </button>
               </div>
-              <div className="flex items-baseline justify-between rounded-xl bg-success/15 px-4 py-3">
-                <span className="text-sm font-semibold text-success">Cambio</span>
-                <span className="text-2xl font-black tabular-nums text-success">{money(change)}</span>
+              <div className="flex items-baseline justify-between rounded-xl bg-success/15 px-3 py-2">
+                <span className="text-xs font-semibold text-success">Cambio</span>
+                <span className="text-xl font-black tabular-nums text-success">{money(change)}</span>
               </div>
             </div>
           )}
-          <div className="mt-auto flex gap-2">
+          <div className="sticky bottom-0 mt-2 flex gap-2 bg-card pt-2">
             {!paid ? (
               <>
-                <button onClick={onClose} className="flex-1 rounded-xl bg-surface py-4 font-semibold">Cancelar</button>
+                <button onClick={onClose} className="flex-1 rounded-xl bg-surface py-3 font-semibold">Cancelar</button>
                 <button onClick={confirm} disabled={!canConfirm}
-                  className="tap-hi flex-1 rounded-xl bg-primary py-4 text-lg font-bold text-primary-foreground disabled:opacity-40">
+                  className="tap-hi flex-1 rounded-xl bg-primary py-3 text-base font-bold text-primary-foreground disabled:opacity-40">
                   Confirmar pago
                 </button>
               </>
             ) : (
-              <button onClick={onClose} className="tap-hi flex-1 rounded-xl bg-primary py-4 text-lg font-bold text-primary-foreground">
+              <button onClick={onClose} className="tap-hi flex-1 rounded-xl bg-primary py-3 text-base font-bold text-primary-foreground">
                 Listo
               </button>
             )}
