@@ -532,9 +532,8 @@ function PayModal({
           {method === "efectivo" && (
             <div className="mb-3 space-y-2">
               <label className="text-xs uppercase tracking-wider text-muted-foreground">Recibido del cliente</label>
-              <input type="number" inputMode="decimal" value={received} disabled={paid}
-                onChange={(e) => setReceived(e.target.value)}
-                className="w-full rounded-xl bg-surface px-4 py-4 text-3xl font-bold tabular-nums outline-none focus:ring-2 focus:ring-primary" />
+              <input type="text" inputMode="decimal" value={received} disabled={paid} readOnly
+                className="w-full rounded-xl bg-surface px-4 py-4 text-right text-3xl font-bold tabular-nums outline-none focus:ring-2 focus:ring-primary" />
               <div className="grid grid-cols-4 gap-1">
                 {[total, Math.ceil(total/50)*50, Math.ceil(total/100)*100, Math.ceil(total/500)*500].map((q, i) => (
                   <button key={i} onClick={() => setReceived(q.toFixed(2))} disabled={paid}
@@ -542,6 +541,18 @@ function PayModal({
                     {money(q)}
                   </button>
                 ))}
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {["1","2","3","4","5","6","7","8","9",".","0","←"].map((k) => (
+                  <button key={k} onClick={() => pad(k)} disabled={paid}
+                    className="tap-hi rounded-xl bg-surface-2 py-4 text-2xl font-bold hover:bg-primary/20 disabled:opacity-40">
+                    {k}
+                  </button>
+                ))}
+                <button onClick={() => pad("C")} disabled={paid}
+                  className="tap-hi col-span-3 rounded-xl bg-destructive/15 py-2 text-sm font-bold text-destructive hover:bg-destructive/25">
+                  Borrar
+                </button>
               </div>
               <div className="flex items-baseline justify-between rounded-xl bg-success/15 px-4 py-3">
                 <span className="text-sm font-semibold text-success">Cambio</span>
