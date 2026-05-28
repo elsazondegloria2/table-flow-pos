@@ -82,7 +82,7 @@ function AdminProducts() {
             {products.length} productos · {products.filter((p) => p.available).length} disponibles hoy
           </div>
           <button
-            onClick={() => setEditing({ name: "", price: 0, emoji: "🍽️", available: true })}
+            onClick={() => setEditing({ name: "", emoji: "🍽️", available: true })}
             className="tap-hi flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground"
           >
             <Plus className="h-5 w-5" /> Nuevo platillo
