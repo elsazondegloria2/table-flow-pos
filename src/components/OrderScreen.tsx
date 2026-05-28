@@ -103,9 +103,8 @@ export function OrderScreen({ orderId, mode }: { orderId: string; mode: OrderTyp
       if (error) throw error;
       return inserted as ItemWithExtras;
     },
-    onSuccess: (item) => {
+    onSuccess: () => {
       invalidate();
-      if (extras.length > 0) setEditing(item);
     },
     onError: (e: Error) => toast.error(e.message),
   });
