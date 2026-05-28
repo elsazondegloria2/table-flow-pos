@@ -421,13 +421,23 @@ function PayModal({
 
   const print = () => {
     const html = ticketRef.current?.innerHTML ?? "";
-    printThermal(html, "Factura");
+    if (html) printThermal(html, "Factura");
   };
 
   const confirm = async () => {
-    await onPay({ method, received: receivedNum || total });
+    // Capture HTML BEFORE onPay (which closes modal and unmounts ticketRef)
+    const html = ticketRef.current?.innerHTML ?? "";
     setPaid(true);
-    setTimeout(print, 100);
+    if (html) printThermal(html, "Factura");
+    setTimeout(() => onPay({ method, received: receivedNum || total }), 250);
+  };
+
+  const pad = (k: string) => {
+    if (paid) return;
+    if (k === "C") return setReceived("");
+    if (k === "←") return setReceived((r) => r.slice(0, -1));
+    if (k === ".") return setReceived((r) => (r.includes(".") ? r : (r || "0") + "."));
+    setReceived((r) => (r === "0" ? k : r + k));
   };
 
   return (
